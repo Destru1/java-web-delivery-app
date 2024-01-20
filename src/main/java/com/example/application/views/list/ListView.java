@@ -18,23 +18,45 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
 import java.awt.*;
+import java.util.Collections;
 
 @PageTitle("Deliveries")
 @Route(value = "")
 public class ListView extends VerticalLayout {
 
     Grid<Delivery> grid = new Grid<Delivery>(Delivery.class);
-       TextField filterText = new TextField();
+    TextField filterText = new TextField();
+
+    DeliveryForm form;
+
     public ListView() {
         addClassName("list-view");
         setSizeFull();
 
         configureGrid();
+        configureForm();
 
         add(
                 getToolbar(),
-                grid
+                getContent()
+
         );
+    }
+
+    private Component getContent() {
+        HorizontalLayout content = new HorizontalLayout(grid, form);
+
+        content.setFlexGrow(2, grid);
+        content.setFlexGrow(1, form);
+        content.addClassName("content");
+        content.setSizeFull();
+        return content;
+    }
+
+    private void configureForm() {
+        form = new DeliveryForm(Collections.emptyList(), Collections.emptyList());
+        form.setWidth("25em");
+
     }
 
     private Component getToolbar() {
@@ -45,7 +67,7 @@ public class ListView extends VerticalLayout {
 
         Button addDeliveryButton = new Button("Add delivery");
 
-        HorizontalLayout toolbar = new HorizontalLayout(filterText,addDeliveryButton);
+        HorizontalLayout toolbar = new HorizontalLayout(filterText, addDeliveryButton);
         toolbar.addClassName("toolbar");
         return toolbar;
     }
@@ -53,7 +75,7 @@ public class ListView extends VerticalLayout {
     private void configureGrid() {
         grid.addClassName("delivery-grid");
         grid.setSizeFull();
-        grid.setColumns("firstName","lastName","address","phoneNumber");
+        grid.setColumns("firstName", "lastName", "address", "phoneNumber");
         grid.addColumn(delivery -> delivery.getCourier().getFullName()).setHeader("Courier");
         grid.addColumn(delivery -> delivery.getStatus().getName()).setHeader("Status");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
