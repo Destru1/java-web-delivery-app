@@ -53,6 +53,13 @@ public class ListView extends VerticalLayout {
         );
 
         updateList();
+        closeEditor();
+    }
+
+    private void closeEditor() {
+    form.setDelivery(null);
+    form.setVisible(false);
+    removeClassName("editing");
     }
 
     private void updateList() {
@@ -73,6 +80,22 @@ public class ListView extends VerticalLayout {
         form = new DeliveryForm(courierService.findAllCouriers(), statusesService.findAllStatuses());
         form.setWidth("25em");
 
+        form.addListener(DeliveryForm.SaveEvent.class,this::saveDelivery);
+        form.addListener(DeliveryForm.DeleteEvent.class,this::deleteDelivery);
+        form.addListener(DeliveryForm.CloseEvent.class, e -> closeEditor());
+    }
+
+    private void deleteDelivery(DeliveryForm.DeleteEvent event) {
+        deliveryService.deleteDelivery(event.getDelivery());
+        updateList();
+        closeEditor();
+
+    }
+
+    private void saveDelivery(DeliveryForm.SaveEvent event) {
+        deliveryService.saveDelivery(event.getDelivery());
+        updateList();
+        closeEditor();
     }
 
     private Component getToolbar() {
@@ -83,10 +106,15 @@ public class ListView extends VerticalLayout {
         filterText.addValueChangeListener(e -> updateList());
 
         Button addDeliveryButton = new Button("Add delivery");
-
+addDeliveryButton.addClickListener(e -> addContact());
         HorizontalLayout toolbar = new HorizontalLayout(filterText, addDeliveryButton);
         toolbar.addClassName("toolbar");
         return toolbar;
+    }
+
+    private void addContact() {
+        grid.asSingleSelect().clear();
+        editDelivery(new Delivery());
     }
 
     private void configureGrid() {
@@ -96,6 +124,20 @@ public class ListView extends VerticalLayout {
         grid.addColumn(delivery -> delivery.getCourier().getFullName()).setHeader("Courier");
         grid.addColumn(delivery -> delivery.getStatus().getName()).setHeader("Status");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
+
+        grid.asSingleSelect().addValueChangeListener(e -> editDelivery(e.getValue()));
+    }
+
+    private void editDelivery(Delivery value) {
+        if (value == null){
+            closeEditor();
+
+        }
+        else{
+            form.setDelivery(value);
+            form.setVisible(true);
+            addClassName("editing");
+        }
     }
 
 }
