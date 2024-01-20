@@ -1,6 +1,9 @@
 package com.example.application.views.list;
 
 import com.example.application.data.Delivery;
+import com.example.application.service.CourierService;
+import com.example.application.service.DeliveryService;
+import com.example.application.service.StatusesService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -24,12 +27,19 @@ import java.util.Collections;
 @Route(value = "")
 public class ListView extends VerticalLayout {
 
+   private final DeliveryService deliveryService;
+    private final CourierService courierService;
+    private final StatusesService statusesService;
     Grid<Delivery> grid = new Grid<Delivery>(Delivery.class);
     TextField filterText = new TextField();
 
     DeliveryForm form;
 
-    public ListView() {
+    public ListView(DeliveryService deliveryService, CourierService courierService, StatusesService statusesService) {
+        this.deliveryService = deliveryService;
+        this.courierService = courierService;
+        this.statusesService = statusesService;
+
         addClassName("list-view");
         setSizeFull();
 
@@ -41,6 +51,12 @@ public class ListView extends VerticalLayout {
                 getContent()
 
         );
+
+        updateList();
+    }
+
+    private void updateList() {
+    grid.setItems(deliveryService.findAllDeliveries(filterText.getValue()));
     }
 
     private Component getContent() {
@@ -54,7 +70,7 @@ public class ListView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new DeliveryForm(Collections.emptyList(), Collections.emptyList());
+        form = new DeliveryForm(courierService.findAllCouriers(), statusesService.findAllStatuses());
         form.setWidth("25em");
 
     }
@@ -64,6 +80,7 @@ public class ListView extends VerticalLayout {
         filterText.setPlaceholder("Filter by name: ");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
+        filterText.addValueChangeListener(e -> updateList());
 
         Button addDeliveryButton = new Button("Add delivery");
 
