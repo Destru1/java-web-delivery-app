@@ -18,3 +18,7 @@ INSERT INTO "DELIVERY" (ID, VERSION, FIRST_NAME, LAST_NAME, ADDRESS, PHONE_NUMBE
 (13,1,'Simeon','Lukov','Asti 221','0888421218',10,2),
 (14,1,'Trifon','Simeonov','Bulgaria 112','088809481288',9,1),
 (15,1,'Silvestar','Petrov','Bulgaria 242','08898298188',6,3);
+
+INSERT INTO "USERS"(ID,VERSION,IS_ACTIVE,PASSWORD_HASH,PASSWORD_SALT,ROLE_ID,USERNAME) VALUES
+                        (1, 1, TRUE, 'c361c3e336063cef419ef2d66127a84bde58e38a', '3Y+|eH7c4q/E(>gmd+FC#4r=Wik_]T+I', 0, 'user'),
+                        (2, 1, true, '847aaf6a3bdcc3fe9a3d6ccd87edb423f62ce0e1', ']]/qK|J,TzP[R8VaT:Tlla=,)4@&#6;t', 1, 'admin');
