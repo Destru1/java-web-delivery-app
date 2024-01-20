@@ -17,7 +17,7 @@ public class Courier extends AbstractEntity {
     @Nullable
     private List<Delivery> couriers = new LinkedList<>();
 
-    @Formula("(select count(c.id) from Delivery d where d.courier_id = id)")
+    @Formula("(select count(d.id) from Delivery d where d.courier_id = id)")
     private int couriersCount;
 
     public String getFullName() {
