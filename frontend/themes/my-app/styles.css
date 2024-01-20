@@ -1,3 +1,9 @@
+
+a[highlight]{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 @media all and (max-width: 1024px) {
     .list-view.editing .toolbar,
     .list-view.editing .delivery-grid{

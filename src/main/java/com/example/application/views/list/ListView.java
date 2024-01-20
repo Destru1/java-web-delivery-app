@@ -4,6 +4,7 @@ import com.example.application.data.Delivery;
 import com.example.application.service.CourierService;
 import com.example.application.service.DeliveryService;
 import com.example.application.service.StatusesService;
+import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -24,10 +25,10 @@ import java.awt.*;
 import java.util.Collections;
 
 @PageTitle("Deliveries")
-@Route(value = "")
+@Route(value = "", layout = MainLayout.class)
 public class ListView extends VerticalLayout {
 
-   private final DeliveryService deliveryService;
+    private final DeliveryService deliveryService;
     private final CourierService courierService;
     private final StatusesService statusesService;
     Grid<Delivery> grid = new Grid<Delivery>(Delivery.class);
@@ -57,13 +58,13 @@ public class ListView extends VerticalLayout {
     }
 
     private void closeEditor() {
-    form.setDelivery(null);
-    form.setVisible(false);
-    removeClassName("editing");
+        form.setDelivery(null);
+        form.setVisible(false);
+        removeClassName("editing");
     }
 
     private void updateList() {
-    grid.setItems(deliveryService.findAllDeliveries(filterText.getValue()));
+        grid.setItems(deliveryService.findAllDeliveries(filterText.getValue()));
     }
 
     private Component getContent() {
@@ -80,8 +81,8 @@ public class ListView extends VerticalLayout {
         form = new DeliveryForm(courierService.findAllCouriers(), statusesService.findAllStatuses());
         form.setWidth("25em");
 
-        form.addListener(DeliveryForm.SaveEvent.class,this::saveDelivery);
-        form.addListener(DeliveryForm.DeleteEvent.class,this::deleteDelivery);
+        form.addListener(DeliveryForm.SaveEvent.class, this::saveDelivery);
+        form.addListener(DeliveryForm.DeleteEvent.class, this::deleteDelivery);
         form.addListener(DeliveryForm.CloseEvent.class, e -> closeEditor());
     }
 
@@ -106,7 +107,7 @@ public class ListView extends VerticalLayout {
         filterText.addValueChangeListener(e -> updateList());
 
         Button addDeliveryButton = new Button("Add delivery");
-addDeliveryButton.addClickListener(e -> addContact());
+        addDeliveryButton.addClickListener(e -> addContact());
         HorizontalLayout toolbar = new HorizontalLayout(filterText, addDeliveryButton);
         toolbar.addClassName("toolbar");
         return toolbar;
@@ -129,11 +130,10 @@ addDeliveryButton.addClickListener(e -> addContact());
     }
 
     private void editDelivery(Delivery value) {
-        if (value == null){
+        if (value == null) {
             closeEditor();
 
-        }
-        else{
+        } else {
             form.setDelivery(value);
             form.setVisible(true);
             addClassName("editing");
