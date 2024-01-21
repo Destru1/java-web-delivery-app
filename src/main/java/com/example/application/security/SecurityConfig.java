@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@EnableWebSecurity
+
 @Configuration
 public class SecurityConfig extends VaadinWebSecurity {
 
@@ -27,19 +27,5 @@ public class SecurityConfig extends VaadinWebSecurity {
         setLoginView(http, LoginView.class); // <4>
     }
 
-    @Bean
-    public UserDetailsService users() {
-        UserDetails user = User.builder()
-                .username("user")
-                // password = password with this hash, don't tell anybody :-)
-                .password("{noop}user123")
-                .roles("USER")
-                .build();
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("{noop}admin123")
-                .roles("USER", "ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user, admin); // <5>
-    }
+
 }

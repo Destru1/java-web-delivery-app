@@ -1,6 +1,6 @@
 package com.example.application.views;
 
-import com.example.application.security.SecurityService;
+
 import com.example.application.service.AuthService;
 import com.example.application.views.list.ListView;
 import com.vaadin.flow.component.UI;

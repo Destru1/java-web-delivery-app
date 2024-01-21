@@ -18,7 +18,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @PageTitle("Login")
 @AnonymousAllowed
 
-public class LoginView extends VerticalLayout implements BeforeEnterListener {
+public class LoginView extends VerticalLayout  {
 
 private final AuthService authService;
 
@@ -63,12 +63,9 @@ private final AuthService authService;
             Notification.show("Enter a password");
         } else {
             authService.authenticate(username, password);
-            UI.getCurrent().navigate("/deliveries");
+            UI.getCurrent().navigate("/delivery");
         }
     }
 
-    @Override
-    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
 
-    }
 }
