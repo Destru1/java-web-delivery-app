@@ -25,6 +25,7 @@ public class DeliveryForm extends FormLayout {
     Binder<Delivery> binder = new BeanValidationBinder<>(Delivery.class);
     TextField firstName = new TextField("First name");
     TextField lastName = new TextField("Last name");
+    TextField city = new TextField("City");
     TextField address = new TextField("Address");
     TextField phoneNumber = new TextField("Phone number");
 
@@ -51,6 +52,7 @@ public class DeliveryForm extends FormLayout {
         add(
                 firstName,
                 lastName,
+                city,
                 address,
                 phoneNumber,
                 courier,

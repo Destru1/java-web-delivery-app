@@ -13,6 +13,8 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -94,18 +96,24 @@ public class ListView extends VerticalLayout {
         deliveryService.deleteDelivery(event.getDelivery());
         updateList();
         closeEditor();
-
+        Notification successNotification = Notification.show("Delivery deleted successfully");
+        successNotification.setPosition(Notification.Position.TOP_END);
+        successNotification.addThemeName(NotificationVariant.LUMO_SUCCESS.getVariantName());
     }
 
     private void saveDelivery(DeliveryForm.SaveEvent event) {
         deliveryService.saveDelivery(event.getDelivery());
         updateList();
         closeEditor();
+
+        Notification successNotification = Notification.show("Delivery created successfully");
+        successNotification.setPosition(Notification.Position.TOP_END);
+        successNotification.addThemeName(NotificationVariant.LUMO_SUCCESS.getVariantName());
     }
 
     private Component getToolbar() {
 
-        filterText.setPlaceholder("Filter by name: ");
+        filterText.setPlaceholder("Filter by name");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
@@ -125,7 +133,7 @@ public class ListView extends VerticalLayout {
     private void configureGrid() {
         grid.addClassName("delivery-grid");
         grid.setSizeFull();
-        grid.setColumns("firstName", "lastName", "address", "phoneNumber");
+        grid.setColumns("firstName", "lastName", "city", "address", "phoneNumber");
         grid.addColumn(delivery -> delivery.getCourier().getFullName()).setHeader("Courier");
         grid.addColumn(delivery -> delivery.getStatus().getName()).setHeader("Status");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));

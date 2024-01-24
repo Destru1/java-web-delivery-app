@@ -63,11 +63,23 @@ public class LoginView extends VerticalLayout {
     private void login(String username, String password) throws AuthService.AuthException {
         if (username.trim().isEmpty()) {
             Notification.show("Enter an username");
+
+            Notification userNotification = Notification.show("Enter an username");
+            userNotification.setPosition(Notification.Position.TOP_END);
+            userNotification.addThemeName(NotificationVariant.LUMO_ERROR.getVariantName());
         } else if (password.isEmpty()) {
             Notification.show("Enter a password");
+
+            Notification passwordNotification = Notification.show("Enter a password");
+            passwordNotification.setPosition(Notification.Position.TOP_END);
+            passwordNotification.addThemeName(NotificationVariant.LUMO_ERROR.getVariantName());
         } else {
             authService.authenticate(username, password);
             UI.getCurrent().navigate("/delivery");
+
+            Notification successNotification = Notification.show("Login successful");
+            successNotification.setPosition(Notification.Position.TOP_END);
+            successNotification.addThemeName(NotificationVariant.LUMO_SUCCESS.getVariantName());
         }
     }
 }

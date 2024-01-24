@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Delivery extends AbstractEntity{
+public class Delivery extends AbstractEntity {
 
     @NotEmpty
     private String firstName = "";
@@ -16,7 +16,10 @@ public class Delivery extends AbstractEntity{
     private String lastName = "";
 
     @NotEmpty
+    private String city = "";
+    @NotEmpty
     private String address = "";
+
 
     @NotEmpty
     private String phoneNumber = "";
@@ -53,6 +56,14 @@ public class Delivery extends AbstractEntity{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getPhoneNumber() {
