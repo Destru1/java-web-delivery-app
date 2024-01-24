@@ -46,7 +46,7 @@ public class AuthService {
     }
 
     private void createRoutes(Roles role) {
-       // removeAuthenticationRoutes();
+       removeAuthenticationRoutes();
 
         getAuthorizedRoutes(role)
                 .forEach(route ->

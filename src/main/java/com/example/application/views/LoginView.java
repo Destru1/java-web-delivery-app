@@ -15,15 +15,20 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route("login")
+@RouteAlias(value = "")
 @PageTitle("Login")
 @AnonymousAllowed
 
-public class LoginView extends VerticalLayout  {
+public class LoginView extends VerticalLayout {
 
-private final AuthService authService;
+    private final AuthService authService;
 
     public LoginView(AuthService authService) {
         this.authService = authService;
+        confLogin();
+    }
+
+    private void confLogin() {
         addClassName("login-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
@@ -34,10 +39,9 @@ private final AuthService authService;
         PasswordField password = new PasswordField("Password");
 
 
-
         RouterLink registerLink = new RouterLink("Register", RegisterView.class);
         add(
-                new H1("Delivery App"),new H2("Login"),
+                new H1("Delivery App"), new H2("Login"),
                 username,
                 password,
                 new Button("Send", event -> {
@@ -66,6 +70,4 @@ private final AuthService authService;
             UI.getCurrent().navigate("/delivery");
         }
     }
-
-
 }

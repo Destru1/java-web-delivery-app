@@ -1,6 +1,8 @@
 package com.example.application.views;
 
 
+import com.example.application.data.Roles;
+import com.example.application.data.Users;
 import com.example.application.service.AuthService;
 import com.example.application.views.list.ListView;
 import com.vaadin.flow.component.UI;
@@ -17,7 +19,7 @@ import com.vaadin.flow.router.RouterLink;
 
 
 public class MainLayout extends AppLayout {
-    private AuthService authService;
+    private final AuthService authService;
     public MainLayout(AuthService authService) {
         this.authService = authService;
         createHeader();
@@ -43,7 +45,16 @@ public class MainLayout extends AppLayout {
         RouterLink listView = new RouterLink("Delivery", ListView.class);
         listView.setHighlightCondition(HighlightConditions.sameLocation());
 
-        addToDrawer(new VerticalLayout(listView,new RouterLink("Dashboard",DashboardView.class)));
+        VerticalLayout sidebar = new VerticalLayout(
+                listView
+        );
+
+        Users authenticatedUser = authService.getAuthenticatedUser();
+        if (authenticatedUser.getRoleId() == Roles.ADMIN) {
+            sidebar.add(new RouterLink("Dashboard", DashboardView.class));
+        }
+
+        addToDrawer(sidebar);
 
     }
 }

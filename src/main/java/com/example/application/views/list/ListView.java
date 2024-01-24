@@ -28,9 +28,8 @@ import java.awt.*;
 import java.util.Collections;
 
 @PageTitle("Deliveries")
-@Route(value = "", layout = MainLayout.class)
 @PermitAll
-@AnonymousAllowed
+
 public class ListView extends VerticalLayout {
 
     private final DeliveryService deliveryService;
